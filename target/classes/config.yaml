@@ -1,0 +1,40 @@
+dataSources:
+  Auto_0:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    jdbcUrl: jdbc:mysql://localhost:3306/Auto_0
+    username: root
+    password: PasswordYash@1
+
+  Auto_1:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    jdbcUrl: jdbc:mysql://localhost:3306/Auto_1
+    username: root
+    password: PasswordYash@1
+
+rules:
+  - !SHARDING
+    autoTables:
+      t:
+        actualDataSources: Auto_${0..1}
+        shardingStrategy:
+          standard:
+            shardingColumn: id
+            shardingAlgorithmName: mod
+        keyGenerateStrategy:
+          column: id
+          keyGeneratorName: snowflake
+
+    shardingAlgorithms:
+      mod:
+        type: MOD
+        props:
+          sharding-count: 2
+
+    keyGenerators:
+      snowflake:
+        type: SNOWFLAKE
+
+props:
+  show-sql: true

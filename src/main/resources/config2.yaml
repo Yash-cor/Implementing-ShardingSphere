@@ -1,0 +1,54 @@
+dataSources:
+  ds0:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    jdbcUrl: jdbc:mysql://localhost:3306/ds0
+    username: root
+    password: PasswordYash@1
+
+  ds1:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    jdbcUrl: jdbc:mysql://localhost:3306/ds1
+    username: root
+    password: PasswordYash@1
+
+rules:
+  - !SHARDING
+    tables:
+      t_logic:
+        actualDataNodes: ds0.t0 , ds1.t1
+        databaseStrategy:
+          standard:
+            shardingColumn: ID
+            shardingAlgorithmName: inline
+
+        tableStrategy:
+          standard:
+            shardingColumn: ID
+            shardingAlgorithmName: inline_t
+
+        keyGenerateStrategy:
+          column: ID
+          keyGeneratorName: snowflake
+    shardingAlgorithms:
+      inline:
+        type: INLINE
+        props:
+          algorithm-expression: ds${ID%2 ? '1':'0'}
+          allow-range-query-with-inline-sharding: true
+
+      inline_t:
+        type: INLINE
+        props:
+          algorithm-expression : t${ID%2}
+          allow-range-query-with-inline-sharding: true
+
+    keyGenerators:
+      snowflake:
+        type: SNOWFLAKE
+
+
+
+props:
+  show-sql :  true

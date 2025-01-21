@@ -1,0 +1,23 @@
+dataSources:
+  ds0:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    jdbcUrl: jdbc:mysql://localhost:3306/ds0
+    username: root
+    password: PasswordYash@1
+
+  ds1:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    jdbcUrl: jdbc:mysql://localhost:3306/ds1
+    username: root
+    password: PasswordYash@1
+
+rules:
+  - !SINGLE
+    tables:
+      - ds0.t_user_info
+      - ds1.t_user_bill
+
+props:
+  show-sql :  true
